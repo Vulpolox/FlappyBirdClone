@@ -1,2 +1,4 @@
-res://pipe.tscn
-res://bird.tscn
+res://Scenes/bird.tscn
+res://Scenes/pipe.tscn
+res://Scenes/pipe_obstacle.tscn
+res://Scripts/bird.gd
