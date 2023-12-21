@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 # signals
 signal start_game
-signal end_game
 
 # public variables
 @export var gravity: float = 500.0 # grav accel
@@ -21,6 +20,7 @@ var max_rotation_degrees: float = 90.0 # cannot rotate player past this amount o
 # flags
 var started: bool = false
 var hit_obstacle: bool = false
+var jump_on_death_flag: bool = false
 
 # starting position
 var start_pos: Vector2
@@ -30,6 +30,8 @@ var current_degrees: float = 0.0
 
 func _ready():
 	
+	# add the bird to the "player" group upon initialization
+	self.add_to_group("player")
 	
 	# for player position restriction
 	bottom_right_coords = get_viewport_rect().size + get_viewport_rect().position
@@ -37,10 +39,10 @@ func _ready():
 	# player starting position
 	start_pos = Vector2(256.0, bottom_right_coords.y / 2)
 	
-	
 	# reset things
 	reset()
-	
+
+
 func _physics_process(delta):
 	
 	# if game has not been started
@@ -52,8 +54,8 @@ func _physics_process(delta):
 		# check for input to start game
 		if Input.is_action_just_pressed("Flap"):
 			started = true
+			start_game.emit()
 			jump()
-			start_game.emit() # connects 
 		
 		return
 	
@@ -79,10 +81,21 @@ func _physics_process(delta):
 	
 	# character hits a pipe or the ground
 	else:
-		return
+		
+		# play a death animation
+		if not jump_on_death_flag:
+			jump()
+			jump_on_death_flag = true
+		
+		# make bird fall
+		if self.position.y < 640:
+			handle_gravity(delta)
+			handle_rotation(delta)
+			self.move_and_slide()
+		
 		
 
-
+# resets the player for a new game
 func reset():
 	
 	self.position = start_pos # set player's starting position
@@ -90,8 +103,10 @@ func reset():
 	# reset flags
 	hit_obstacle = false
 	started = false
+	jump_on_death_flag = false
 
 
+# handles the player falling due to gravity
 func handle_gravity(delta) -> void:
 	
 	# if current velocity is less than terminal velocity
@@ -99,12 +114,14 @@ func handle_gravity(delta) -> void:
 		self.velocity.y += gravity * delta # add acceleration to current velocity
 
 
+# handles player jumping
 func jump() -> void:
 	self.velocity.y = jump_speed  # make the player jump
 	angular_velocity = -3.5 # make the player rotate counter clockwise
 	self.rotation_degrees = 25.0 # set the player's rotation
 
 
+# handles rotation animations of the bird
 func handle_rotation(delta) -> void:
 	
 	# if current angular velocity hasn't reached the set maximum
@@ -118,7 +135,8 @@ func handle_rotation(delta) -> void:
 	self.rotation_degrees += angular_velocity # increment rotation
 
 
-func pre_game_animation(delta): # produces wave-like motion for bird before game is started
+# adds an animation to the bird before the game starts
+func pre_game_animation(delta):
 	
 	# increment the degrees
 	current_degrees +=  4
@@ -128,9 +146,3 @@ func pre_game_animation(delta): # produces wave-like motion for bird before game
 		current_degrees -= 360
 	
 	self.position.y -= sin(current_degrees * (PI/180))
-
-
-
-func game_over(delta) -> void:
-	pass
-

@@ -1,24 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqnj00dbr0tqy"]
+[gd_scene load_steps=4 format=3 uid="uid://n6gauhqoncss"]
 
 [ext_resource type="Script" path="res://Scripts/pipe_obstacle.gd" id="1_cr8i7"]
-[ext_resource type="PackedScene" uid="uid://dopkcxw8nakmr" path="res://Scenes/pipe.tscn" id="1_yyqax"]
+[ext_resource type="PackedScene" uid="uid://bcq025c72lcag" path="res://Scenes/pipe.tscn" id="1_yyqax"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_blwsg"]
-size = Vector2(10, 160)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_quod3"]
+size = Vector2(20, 160)
 
 [node name="PipeObstacle" type="Node2D"]
-position = Vector2(32, 352)
+position = Vector2(1152, -96)
 script = ExtResource("1_cr8i7")
+metadata/_edit_group_ = true
 
 [node name="UpperPipe" parent="." instance=ExtResource("1_yyqax")]
-position = Vector2(-32, -160)
+position = Vector2(64, 224)
 rotation = 3.14159
 
 [node name="LowerPipe" parent="." instance=ExtResource("1_yyqax")]
-position = Vector2(0, 64)
+position = Vector2(0, 384)
 
-[node name="PointRegion" type="Area2D" parent="." groups=["score_region"]]
+[node name="ScoreRegion" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PointRegion"]
-position = Vector2(-16, -48)
-shape = SubResource("RectangleShape2D_blwsg")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreRegion"]
+position = Vector2(32, 304)
+shape = SubResource("RectangleShape2D_quod3")
+
+[node name="CullTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="ScoreRegion" to="." method="_on_score_region_body_entered"]
+[connection signal="timeout" from="CullTimer" to="." method="_on_cull_timer_timeout"]

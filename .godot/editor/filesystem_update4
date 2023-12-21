@@ -4,3 +4,7 @@ res://Scenes/bird.tscn
 res://Scripts/bird.gd
 res://Scripts/pipe_obstacle.gd
 res://Scenes/main.tscn
+res://Scenes/ground.tscn
+res://Scripts/ground.gd
+res://Scenes/pipe.gd
+res://Scripts/main.gd
