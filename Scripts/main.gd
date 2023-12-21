@@ -17,7 +17,7 @@ func _ready():
 	# connect ground's "ground_hit" signal to the hit() function
 	ground.ground_hit.connect(hit)
 	
-	# connect bird's start_game signal to start function
+	# connect bird's start_game signal to start() function
 	bird.start_game.connect(start)
 
 
@@ -38,7 +38,6 @@ func generate_pipes():
 	# connect the pipe_obstacles's score_point signal to the "score()" function
 	pipe_obstacle.score_point.connect(increment_score)
 	
-	
 	# connect pipe collision signals to the hit() function
 	var upper_pipe = pipe_obstacle.get_node("UpperPipe")
 	var lower_pipe = pipe_obstacle.get_node("LowerPipe")
@@ -56,24 +55,34 @@ func hit() -> void:
 	ground.scroll_is_on = false # toggle off the ground scrolling
 	
 	# toggle off movement for all the pipes and turns off their cull timers
-	var pipes_in_scene = get_tree().get_nodes_in_group("pipe_obstacles")
-	for pipe in pipes_in_scene:
+	for pipe in get_tree().get_nodes_in_group("pipe_obstacles"):
 		pipe.is_pipe_moving = false
 		pipe.get_node("CullTimer").stop()
 	
 	# stop more pipes from spawning
 	pipe_timer.stop()
 	
+	# temporary code for game functionality before completion
+	await get_tree().create_timer(3.0).timeout
+	reset_game()
+	
 # increments the score
 func increment_score() -> void:
-	pass
+	pass # todo
 
 
 # resets the game for the next round
 func reset_game() -> void:
-	bird.reset()
+	
+	bird.reset() # reset the bird to the pre-game animation
+	
+	ground.scroll_is_on = true # make the ground scroll again
+	
+	# delete all the pipes in the scene
+	for pipe in get_tree().get_nodes_in_group("pipe_obstacles"):
+		pipe.queue_free()
 
 
-# starts the game after the player jumps
+# starts the game after the player jumps for the first time
 func start():
 	pipe_timer.start()

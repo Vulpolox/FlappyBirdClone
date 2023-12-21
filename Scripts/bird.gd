@@ -88,7 +88,7 @@ func _physics_process(delta):
 			jump_on_death_flag = true
 		
 		# make bird fall
-		if self.position.y < 640:
+		if self.position.y < 700:
 			handle_gravity(delta)
 			handle_rotation(delta)
 			self.move_and_slide()
@@ -99,6 +99,7 @@ func _physics_process(delta):
 func reset():
 	
 	self.position = start_pos # set player's starting position
+	self.rotation = 0 # reset bird's rotation
 	
 	# reset flags
 	hit_obstacle = false
