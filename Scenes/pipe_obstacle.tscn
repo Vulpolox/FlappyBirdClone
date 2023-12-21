@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqnj00dbr0tqy"]
+[gd_scene load_steps=4 format=3 uid="uid://bqnj00dbr0tqy"]
 
+[ext_resource type="Script" path="res://Scripts/pipe_obstacle.gd" id="1_cr8i7"]
 [ext_resource type="PackedScene" uid="uid://dopkcxw8nakmr" path="res://Scenes/pipe.tscn" id="1_yyqax"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blwsg"]
+size = Vector2(10, 160)
 
 [node name="PipeObstacle" type="Node2D"]
 position = Vector2(32, 352)
-metadata/_edit_group_ = true
+script = ExtResource("1_cr8i7")
 
 [node name="UpperPipe" parent="." instance=ExtResource("1_yyqax")]
 position = Vector2(-32, -160)
@@ -12,3 +16,9 @@ rotation = 3.14159
 
 [node name="LowerPipe" parent="." instance=ExtResource("1_yyqax")]
 position = Vector2(0, 64)
+
+[node name="PointRegion" type="Area2D" parent="." groups=["score_region"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PointRegion"]
+position = Vector2(-16, -48)
+shape = SubResource("RectangleShape2D_blwsg")

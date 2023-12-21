@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c71wls4rhtkt0"]
+
+[ext_resource type="PackedScene" uid="uid://cedjxo5yqe4u4" path="res://Scenes/bird.tscn" id="1_mtvku"]
+[ext_resource type="PackedScene" uid="uid://bqnj00dbr0tqy" path="res://Scenes/pipe_obstacle.tscn" id="2_omkys"]
+
+[node name="Main" type="Node"]
+
+[node name="Bird" parent="." instance=ExtResource("1_mtvku")]
+
+[node name="PipeObstacle" parent="." instance=ExtResource("2_omkys")]
+position = Vector2(1120, 384)
