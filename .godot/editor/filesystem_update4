@@ -1,10 +1,12 @@
+res://Scenes/bird.tscn
+res://Scenes/main.tscn
 res://Scenes/pipe.tscn
 res://Scenes/pipe_obstacle.tscn
-res://Scenes/bird.tscn
-res://Scripts/bird.gd
-res://Scripts/pipe_obstacle.gd
-res://Scenes/main.tscn
 res://Scenes/ground.tscn
 res://Scripts/ground.gd
-res://Scenes/pipe.gd
+res://Scripts/bird.gd
+res://Scripts/pipe_obstacle.gd
+res://Scenes/gui.tscn
+res://Themes/FlappyButton.tres
+res://Scripts/ResetButton.gd
 res://Scripts/main.gd

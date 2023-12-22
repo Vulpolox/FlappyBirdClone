@@ -23,11 +23,6 @@ func scroll_ground(delta):
 		self.position.x = 0
 
 
-# toggles the scroll_is_on flag
-func toggle_scroll():
-	scroll_is_on = not scroll_is_on
-	
-
 # if something hits the ground
 func _ground_is_hit(body):
 	

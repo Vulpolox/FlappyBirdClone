@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://c71wls4rhtkt0"]
+[gd_scene load_steps=6 format=3 uid="uid://c71wls4rhtkt0"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_27h3p"]
 [ext_resource type="PackedScene" uid="uid://cedjxo5yqe4u4" path="res://Scenes/bird.tscn" id="1_mtvku"]
 [ext_resource type="PackedScene" uid="uid://n6gauhqoncss" path="res://Scenes/pipe_obstacle.tscn" id="2_omkys"]
+[ext_resource type="PackedScene" uid="uid://bvtbwxrvtky83" path="res://Scenes/gui.tscn" id="3_8mucc"]
 [ext_resource type="PackedScene" uid="uid://cnw8kc2xocm36" path="res://Scenes/ground.tscn" id="4_opo4y"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_27h3p")
 pipe_obstacle_scene = ExtResource("2_omkys")
+reset_button = ExtResource("3_8mucc")
 
 [node name="Bird" parent="." instance=ExtResource("1_mtvku")]
 

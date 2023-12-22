@@ -1,11 +1,15 @@
 extends Node
 
 @export var pipe_obstacle_scene : PackedScene
+@export var reset_button : PackedScene
 
 # variables for nodes in the scene
 var bird: CharacterBody2D
 var ground: Area2D
 var pipe_timer: Timer
+
+# variable for storing the current reset button
+var r_button
 
 func _ready():
 	
@@ -62,9 +66,14 @@ func hit() -> void:
 	# stop more pipes from spawning
 	pipe_timer.stop()
 	
-	# temporary code for game functionality before completion
+	# wait for 3 seconds
 	await get_tree().create_timer(3.0).timeout
-	reset_game()
+	
+	# spawn reset button and connect signals
+	r_button = reset_button.instantiate()
+	self.add_child(r_button)
+	var actual_button = r_button.get_node("ResetButton")
+	actual_button.pressed.connect(reset_game)
 	
 # increments the score
 func increment_score() -> void:
@@ -74,13 +83,16 @@ func increment_score() -> void:
 # resets the game for the next round
 func reset_game() -> void:
 	
-	bird.reset() # reset the bird to the pre-game animation
+	bird.reset() # reset the bird
 	
 	ground.scroll_is_on = true # make the ground scroll again
 	
 	# delete all the pipes in the scene
 	for pipe in get_tree().get_nodes_in_group("pipe_obstacles"):
 		pipe.queue_free()
+	
+	# delete the reset button
+	r_button.queue_free()
 
 
 # starts the game after the player jumps for the first time

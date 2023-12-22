@@ -28,10 +28,13 @@ var start_pos: Vector2
 # starting animation
 var current_degrees: float = 0.0
 
+# child node references
+var collision_shape
+
 func _ready():
 	
-	# add the bird to the "player" group upon initialization
-	self.add_to_group("player")
+	# set reference
+	collision_shape = $CollisionShape2D
 	
 	# for player position restriction
 	bottom_right_coords = get_viewport_rect().size + get_viewport_rect().position
@@ -93,7 +96,8 @@ func _physics_process(delta):
 			handle_rotation(delta)
 			self.move_and_slide()
 		
-		
+		# remove from player group to prevent further collisions
+		self.remove_from_group("player")
 
 # resets the player for a new game
 func reset():
@@ -105,7 +109,10 @@ func reset():
 	hit_obstacle = false
 	started = false
 	jump_on_death_flag = false
-
+	
+	# reenable collision by adding to the player group
+	self.add_to_group("player")
+	
 
 # handles the player falling due to gravity
 func handle_gravity(delta) -> void:
