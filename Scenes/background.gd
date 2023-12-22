@@ -21,12 +21,17 @@ func _ready():
 	building_scroller.set_loop(1152)
 	
 	# set the InfiniScrollers' scroll speeds to different values to give illusion of parallax
-	sky_scroller.set_scroll_speed(60)
-	building_scroller.set_scroll_speed(120)
-	
+	sky_scroller.set_scroll_speed(30)
+	building_scroller.set_scroll_speed(60)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	sky_scroller.loop_and_scroll(delta)
 	building_scroller.loop_and_scroll(delta)
+	
+
+# function for toggling background scrolling
+func toggle_background_scroll() -> void:
+	sky_scroller.toggle_scroll()
+	building_scroller.toggle_scroll()

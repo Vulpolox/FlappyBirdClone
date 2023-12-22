@@ -7,6 +7,8 @@ extends Node
 var bird: CharacterBody2D
 var ground: Area2D
 var pipe_timer: Timer
+var background: Node2D
+var color_control: ColorRect
 
 # variable for storing the current reset button
 var r_button
@@ -17,6 +19,8 @@ func _ready():
 	bird = $Bird
 	ground = $Ground
 	pipe_timer = $PipeTimer
+	background = $Background
+	color_control = $Flash
 	
 	# connect ground's "ground_hit" signal to the hit() function
 	ground.ground_hit.connect(hit)
@@ -50,8 +54,10 @@ func generate_pipes():
 # is called when the bird hits a pipe or the ground
 func hit() -> void:
 	
+	color_control.flash() # trigger a white flash on the screen
 	bird.hit_obstacle = true # set the hit_obstacle flag to true
-	ground.scroll_is_on = false # toggle off the ground scrolling
+	ground.scroll_is_on = false # toggle the ground scrolling off
+	background.toggle_background_scroll() # toggle the bg scrolling off
 	
 	# toggle off movement for all the pipes and turns off their cull timers
 	for pipe in get_tree().get_nodes_in_group("pipe_obstacles"):
@@ -63,6 +69,9 @@ func hit() -> void:
 	
 	# wait for 3 seconds
 	await get_tree().create_timer(3.0).timeout
+	
+	# darken the screen
+	color_control.darken_screen()
 	
 	# spawn reset button and connect signals
 	r_button = reset_button.instantiate()
@@ -79,7 +88,9 @@ func increment_score() -> void:
 func reset_game() -> void:
 	
 	bird.reset() # reset the bird
+	color_control.reset() # reset colors
 	
+	background.toggle_background_scroll()
 	ground.scroll_is_on = true # make the ground scroll again
 	
 	# delete all the pipes in the scene

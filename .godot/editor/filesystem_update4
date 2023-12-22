@@ -9,3 +9,4 @@ res://Scenes/gui.tscn
 res://Scripts/InfiniScroller.gd
 res://Scenes/background.tscn
 res://Scenes/background.gd
+res://Scenes/Flash.gd
