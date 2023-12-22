@@ -25,11 +25,6 @@ func _ready():
 	bird.start_game.connect(start)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 # called when the pipe timer runs out every 2.5 seconds
 func _on_pipe_timer_timeout():
 	generate_pipes()
